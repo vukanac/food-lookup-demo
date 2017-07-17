@@ -130,3 +130,30 @@ git push heroku master
 ```
 
 Heroku will give you a link at which to view your live app.
+
+#### Build directly on Heroku
+
+Other option is to build client project on Heroku by adding scripts on post-build hook.
+
+Add to root `package.json`:
+
+    "scripts": {
+        "heroku-postbuild": "npm --prefix client run installDep && npm --prefix client run build",
+        // ...
+
+Also add to subproject's `client/package.json`:
+
+
+    "scripts": {
+        // ...
+        "installDep": "npm install"
+
+Now prepare Heroku and deploy:
+
+    heroku apps:create food-lookup-demo
+    git push heroku master
+    heroku open
+
+This will trigger installation of dependencies and building client application.
+
+Now, server will serve React application as static content on `/` route.
